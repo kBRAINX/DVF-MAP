@@ -1,0 +1,74 @@
+<!-- Conteneur principal regroupant la carte et le tableau -->
+<div class="map-wrapper">
+
+  <!-- ==== SECTION CARTE ==== -->
+  <div class="map-container">
+    <!-- Élément DOM qui contiendra la carte Leaflet (lié à @ViewChild dans le TS) -->
+    <div #map id="map"></div>
+  </div>
+
+  <!-- ==== SECTION LISTE DES PROPRIÉTÉS ==== -->
+  <!-- Container du tableau des propriétés, repliable -->
+  <div class="property-list-container" [class.collapsed]="tableCollapsed">
+
+    <!-- En-tête du tableau cliquable pour replier/déplier -->
+    <div class="property-list-header" (click)="toggleTable()">
+      <h3>
+        <!-- Icône SVG (maison) -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3L2 12h3v7h6v-5h2v5h6v-7h3L12 3z" fill="currentColor"/>
+        </svg>
+        Propriétés
+
+        <!-- Affichage du nombre de résultats -->
+        <span class="property-count" *ngIf="visibleProperties.length">
+          {{ visibleProperties.length }} résultats
+        </span>
+      </h3>
+
+      <!-- Icône de flèche pour indiquer l’état déplié/replié -->
+      <svg class="toggle-icon" [class.collapsed]="tableCollapsed" width="16" height="16">
+        <path d="M6 9L12 15L18 9"/>
+      </svg>
+    </div>
+
+    <!-- Contenu de la liste des propriétés : visible uniquement si la table n’est pas repliée -->
+    <div class="property-list" *ngIf="!tableCollapsed">
+
+      <!-- Table des propriétés (si des propriétés sont disponibles) -->
+      <table class="property-table" *ngIf="visibleProperties.length > 0">
+        <thead>
+          <tr>
+            <th>Numéro</th>
+            <th>Adresse</th>
+            <th>Code Postal</th>
+            <th>Cadastre</th>
+            <th>Taille terrain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Génération dynamique d’une ligne par propriété, Met en surbrillance la propriété sélectionnée -->
+          <tr *ngFor="let prop of visibleProperties; let i = index"
+              [class.selected]="selectedPropertyIndex === i"
+              (click)="selectProperty(i, prop)"> <!-- Clique pour centrer la carte sur cette propriété -->
+            <td>{{ prop.adresse_numero || '—' }}</td>
+            <td>{{ prop.adresse_nom_voie || '—' }}</td>
+            <td>{{ prop.code_postal || '—' }}</td>
+            <td>{{ prop.id_parcelle }}</td>
+            <td>{{ prop.surface_terrain ?? '—' }} m²</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Message affiché quand aucun résultat trouvé -->
+      <div class="no-results" *ngIf="visibleProperties.length === 0">
+        Aucune propriété trouvée. Veuillez activer au moins un filtre (prix ou date) et déplacer la carte pour voir les résultats.
+      </div>
+    </div>
+  </div>
+
+  <!-- ==== OVERLAY DE CHARGEMENT ==== -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div> <!-- Animation CSS pour indiquer un chargement -->
+  </div>
+</div>

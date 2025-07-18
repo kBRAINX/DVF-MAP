@@ -1,0 +1,253 @@
+<!-- src/app/components/form/form.component.html -->
+
+<div class="filter-form-container">
+  <!-- En-tête du formulaire -->
+  <div class="form-header">
+    <h2>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M3 6h18"></path>
+        <path d="M7 12h10"></path>
+        <path d="M10 18h4"></path>
+      </svg>
+      Filtres de recherche
+    </h2>
+    <p>Filtrez les données DVF par prix et date</p>
+  </div>
+
+  <!-- Formulaire principal -->
+  <form [formGroup]="filterForm" class="filter-form">
+
+    <!-- ==== SECTION PRIX ==== -->
+    <div class="form-section">
+      <div class="section-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          Filtre de prix
+        </h3>
+
+        <label class="toggle-switch" for="usePriceFilter">
+          <input type="checkbox" formControlName="usePriceFilter" id="usePriceFilter">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="section-content" *ngIf="filterForm.get('usePriceFilter')?.value">
+        <!-- Sélecteur de mode prix -->
+        <div class="mode-selector">
+          <label>
+            <input type="radio" value="exact" formControlName="priceMode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Montant exact
+          </label>
+          <label>
+            <input type="radio" value="interval" formControlName="priceMode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
+            Intervalle
+          </label>
+        </div>
+
+        <!-- Champ prix exact -->
+        <div *ngIf="filterForm.get('priceMode')?.value === 'exact'" class="form-group">
+          <label for="price">Montant exact</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <input
+              type="number"
+              id="price"
+              formControlName="price"
+              placeholder="150000"
+              class="with-icon"
+            >
+          </div>
+        </div>
+
+        <!-- Champs intervalle prix -->
+        <div *ngIf="filterForm.get('priceMode')?.value === 'interval'" class="input-group">
+          <div class="form-group">
+            <label for="minPrice">Prix minimum</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M3 12h18m-9-9v18"></path>
+              </svg>
+              <input
+                type="number"
+                id="minPrice"
+                formControlName="minPrice"
+                placeholder="100000"
+                class="with-icon"
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="maxPrice">Prix maximum</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M3 12h18m-9-9v18"></path>
+              </svg>
+              <input
+                type="number"
+                id="maxPrice"
+                formControlName="maxPrice"
+                placeholder="300000"
+                class="with-icon"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==== SECTION DATE ==== -->
+    <div class="form-section">
+      <div class="section-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          Filtre de date
+        </h3>
+
+        <label class="toggle-switch" for="useDateFilter">
+          <input type="checkbox" formControlName="useDateFilter" id="useDateFilter">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="section-content" *ngIf="filterForm.get('useDateFilter')?.value">
+        <!-- Sélecteur de mode date -->
+        <div class="mode-selector">
+          <label>
+            <input type="radio" value="exact" formControlName="dateMode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Date exacte
+          </label>
+          <label>
+            <input type="radio" value="interval" formControlName="dateMode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M5 12h14"></path>
+              <path d="M12 5l7 7-7 7"></path>
+            </svg>
+            Période
+          </label>
+        </div>
+
+        <!-- Champ date exacte -->
+        <div *ngIf="filterForm.get('dateMode')?.value === 'exact'" class="form-group">
+          <label for="exactDate">Date de transaction</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <input
+              type="date"
+              id="exactDate"
+              formControlName="exactDate"
+              class="with-icon"
+            >
+          </div>
+        </div>
+
+        <!-- Champs intervalle date -->
+        <div *ngIf="filterForm.get('dateMode')?.value === 'interval'" class="input-group">
+          <div class="form-group">
+            <label for="startDate">Date de début</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <input
+                type="date"
+                id="startDate"
+                formControlName="startDate"
+                class="with-icon"
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="endDate">Date de fin</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <input
+                type="date"
+                id="endDate"
+                formControlName="endDate"
+                class="with-icon"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==== BOUTONS D'ACTION ==== -->
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="resetFilters()"
+        [disabled]="isLoading"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 12a9 9 0 109 9 9.75 9.75 0 01-6.74-2.74L3 21"></path>
+        </svg>
+        Réinitialiser
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="search()"
+        [disabled]="!hasActiveFilters() || isLoading"
+      >
+        <svg *ngIf="!isLoading" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+        <svg *ngIf="isLoading" class="spinner" width="18" height="18" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+            <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+            <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        {{ isLoading ? 'Recherche...' : 'Rechercher' }}
+      </button>
+    </div>
+
+    <!-- Note informative -->
+    <div class="form-note">
+      <span class="note-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+      </span>
+      <strong>Astuce :</strong> Activez au moins un filtre pour lancer la recherche.
+      Les résultats s'afficheront automatiquement sur la carte.
+    </div>
+
+  </form>
+</div>
