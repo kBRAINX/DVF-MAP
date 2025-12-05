@@ -1,0 +1,4 @@
+.env
+__pycache__/
+scraped_data
+performance_analysis.png

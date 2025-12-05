@@ -1,0 +1,6 @@
+venv
+.env
+.dea
+/lbc_ws_scrapfly/.env
+/lbc_ws_proxy/.env
+scraped_data

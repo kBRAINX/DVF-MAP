@@ -1,0 +1,9 @@
+# Ignorer les fichiers de dump SQL
+*.sql
+*.sql.gz
+
+# Bonne pratique : ignorer aussi les environnements virtuels et dépendances globaux
+venv/
+.env
+*.env
+.idea
